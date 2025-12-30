@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+
+/* Pixel font for admin (VT323). We'll load via layout <link>. */
+:root {
+  --crt-bg: #0b0f0c;
+  --crt-text: #7CFF7C;
+  --crt-amber: #ffbf66;
+}
+
+
+/* CRT effects */
+.crt {
+  background: radial-gradient(1200px 700px at 50% 30%, rgba(100, 255, 140, 0.08), transparent 60%),
+              linear-gradient(180deg, #050706, #070c09 50%, #050706);
+  color: var(--crt-text);
+  position: relative;
+  overflow: hidden;
+}
+
+
+.crt::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  mix-blend-mode: overlay;
+  opacity: 0.25;
+}
+
+
+.crt::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(800px 400px at 50% 20%, rgba(124, 255, 124, 0.08), transparent 60%);
+  opacity: 0.9;
+}
+
+
+/* subtle flicker */
+@keyframes flicker {
+  0%, 100% { opacity: 0.95; }
+  50% { opacity: 1; }
+}
+.crt-flicker {
+  animation: flicker 2.8s infinite;
+}
+
+
+/* terminal look */
+.terminal {
+  font-family: "VT323", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  letter-spacing: 0.5px;
+}
+
+
+/* buttons */
+.btn-crt {
+  @apply px-3 py-2 rounded border border-green-400/40 bg-black/40 hover:bg-black/60 transition;
+}
+.btn-amber {
+  @apply border-orange-300/40 text-orange-200;
+}
+
+
+.input-crt {
+  @apply w-full px-3 py-2 rounded border border-green-400/30 bg-black/40 outline-none focus:border-green-300/60;
+}
+.select-crt {
+  @apply w-full px-3 py-2 rounded border border-green-400/30 bg-black/40 outline-none;
+}
+.card-crt {
+  @apply rounded-xl border border-green-400/25 bg-black/30 shadow-sm;
+}
+.hr-crt {
+  @apply border-green-400/20;
+}
