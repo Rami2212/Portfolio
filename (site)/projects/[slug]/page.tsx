@@ -1,0 +1,249 @@
+"use client";
+
+
+import { use, useEffect, useState } from "react";
+import Link from "next/link";
+import { projectsData, type Project } from "./data/projectsData";
+
+
+export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
+  const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    // Using local data for now
+    setLoading(true);
+    const found = projectsData.find((p) => p.slug === slug);
+    setProject(found || null);
+    setLoading(false);
+
+
+    // API call commented out - uncomment when ready
+    /*
+    (async () => {
+      setLoading(true);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/projects/slug/${slug}`, {
+        cache: "no-store",
+      });
+      if (!res.ok) {
+        setProject(null);
+        setLoading(false);
+        return;
+      }
+      const json = await res.json();
+      setProject(json.project || null);
+      setLoading(false);
+    })();
+    */
+  }, [slug]);
+
+
+  if (loading) {
+    return (
+      <main className="min-h-screen relative px-6 py-16 flex items-center justify-center">
+        <div className="text-white/60 text-lg">Loading project...</div>
+      </main>
+    );
+  }
+
+
+  if (!project) {
+    return (
+      <main className="min-h-screen relative px-6 py-16 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-white mb-4">Project Not Found</h1>
+          <p className="text-white/60 mb-8">The project you're looking for doesn't exist.</p>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 px-6 py-3 text-white font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Home
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+
+  const categoryLabels: Record<Project["category"], string> = {
+    se: "Software Engineering",
+    devops: "DevOps",
+    aiml: "AI / ML",
+  };
+
+
+  return (
+    <main className="min-h-screen relative px-6 py-16">
+      <div className="mx-auto max-w-5xl">
+        {/* Back button */}
+        <Link
+          href="/#projects"
+          className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group"
+        >
+          <svg className="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Projects
+        </Link>
+
+
+        {/* Header */}
+        <div className="mt-8">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-sm px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-400/30 text-purple-200 font-medium">
+              {categoryLabels[project.category]}
+            </span>
+            {project.isFeatured && (
+              <span className="text-sm px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-400/30 text-purple-200 font-medium">
+                ⭐ Featured
+              </span>
+            )}
+          </div>
+
+
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+            {project.title}
+          </h1>
+         
+          <p className="text-xl text-white/70 leading-relaxed max-w-3xl">
+            {project.shortDescription}
+          </p>
+        </div>
+
+
+        {/* Cover Image */}
+        {project.coverImage && (
+          <div className="mt-8 rounded-2xl border border-purple-400/20 overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm">
+            <img
+              src={project.coverImage}
+              alt={project.title}
+              className="w-full h-[400px] object-cover"
+            />
+          </div>
+        )}
+
+
+        {/* Action Buttons */}
+        {(project.liveUrl || project.demoUrl) && (
+          <div className="mt-8 flex gap-4 flex-wrap">
+            {project.liveUrl && (
+              <a
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 px-6 py-3 text-white font-semibold shadow-xl shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 hover:scale-[1.02]"
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                View Live Site
+              </a>
+            )}
+            {project.demoUrl && (
+              <a
+                className="inline-flex items-center gap-2 rounded-xl border border-purple-400/30 bg-white/5 px-6 py-3 font-semibold text-white hover:bg-white/10 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm"
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                View Demo
+              </a>
+            )}
+          </div>
+        )}
+
+
+        {/* Content Grid */}
+        <div className="mt-8 grid gap-6">
+          {/* Long Description */}
+          {project.longDescription && (
+            <div className="rounded-2xl border border-purple-400/20 bg-gradient-to-br from-white/5 to-white/[0.02] p-8 backdrop-blur-sm">
+              <h2 className="text-2xl font-semibold text-white mb-4">Project Overview</h2>
+              <div className="whitespace-pre-wrap text-white/75 leading-relaxed">
+                {project.longDescription}
+              </div>
+            </div>
+          )}
+
+
+          {/* Tech Stack */}
+          {project.techStack?.length > 0 && (
+            <div className="rounded-2xl border border-purple-400/20 bg-gradient-to-br from-white/5 to-white/[0.02] p-8 backdrop-blur-sm">
+              <h2 className="text-2xl font-semibold text-white mb-4">Tech Stack</h2>
+              <div className="flex flex-wrap gap-3">
+                {project.techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500/20 to-blue-500/10 border border-purple-400/30 text-white/90 text-sm font-medium backdrop-blur-sm"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+
+          {/* Gallery */}
+          {project.galleryImages?.length > 0 && (
+            <div className="rounded-2xl border border-purple-400/20 bg-gradient-to-br from-white/5 to-white/[0.02] p-8 backdrop-blur-sm">
+              <h2 className="text-2xl font-semibold text-white mb-6">Project Gallery</h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                {project.galleryImages.map((img, index) => (
+                  <div key={index} className="rounded-xl border border-purple-400/20 overflow-hidden bg-black/20 hover:border-purple-400/40 transition-colors">
+                    <img
+                      src={img}
+                      alt={`${project.title} screenshot ${index + 1}`}
+                      className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+
+          {/* Tags */}
+          {project.tags?.length > 0 && (
+            <div className="rounded-2xl border border-purple-400/20 bg-gradient-to-br from-white/5 to-white/[0.02] p-8 backdrop-blur-sm">
+              <h2 className="text-2xl font-semibold text-white mb-4">Technologies Used</h2>
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-sm rounded-lg border border-white/10 bg-black/20 px-3 py-1.5 text-white/70"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+
+        {/* Bottom Navigation */}
+        <div className="mt-12 pt-8 border-t border-purple-400/20">
+          <Link
+            href="/#projects"
+            className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group"
+          >
+            <svg className="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to All Projects
+          </Link>
+        </div>
+      </div>
+    </main>
+  );
+}
