@@ -20,22 +20,16 @@ type Project = {
   order: number;
 };
 
-export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const [slug, setSlug] = useState<string | null>(null);
+export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    params.then(p => setSlug(p.slug));
-  }, [params]);
-
-  useEffect(() => {
-    if (slug) load();
+    load();
   }, [slug]);
 
   async function load() {
-    if (!slug) return;
-    
     try {
       setLoading(true);
 
