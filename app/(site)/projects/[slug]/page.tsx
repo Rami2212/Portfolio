@@ -1,6 +1,5 @@
 "use client";
 
-
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -8,7 +7,7 @@ type Project = {
   _id: string;
   title: string;
   slug: string;
-  category: "se" | "devops" | "aiml";
+  category: "se" | "devops" | "aiml" | "other";
   shortDescription: string;
   longDescription?: string;
   tags: string[];
@@ -93,6 +92,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
     se: "Software Engineering",
     devops: "DevOps",
     aiml: "AI / ML",
+    other: "Other",
   };
 
 

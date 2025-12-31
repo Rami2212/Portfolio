@@ -16,7 +16,7 @@ type Project = {
   _id: string;
   title: string;
   slug: string;
-  category: "se" | "devops" | "aiml";
+  category: "se" | "devops" | "aiml" | "other";
   shortDescription: string;
   longDescription?: string;
   tags: string[];
@@ -33,6 +33,7 @@ const LABELS: Record<Project["category"], string> = {
   se: "SE",
   devops: "DevOps",
   aiml: "AI/ML",
+  other: "Other",
 };
 
 export default function Projects() {

@@ -1,10 +1,8 @@
 "use client";
 
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch, setToken } from "@/lib/adminClient";
-
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -13,17 +11,15 @@ export default function AdminLoginPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError(null);
 
-
     try {
       const res = await apiFetch<{ token: string }>("/api/auth/login", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
+        body: ({ email, password }),
       });
       setToken(res.token);
       router.push("/admin");
@@ -34,7 +30,6 @@ export default function AdminLoginPage() {
     }
   }
 
-
   return (
     <main className="min-h-screen flex items-center justify-center p-6">
       <div className="card-crt w-full max-w-lg p-6">
@@ -43,9 +38,7 @@ export default function AdminLoginPage() {
           <span className="text-green-300/70">v1.0</span>
         </div>
 
-
         <hr className="hr-crt my-4" />
-
 
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
@@ -59,7 +52,6 @@ export default function AdminLoginPage() {
             />
           </div>
 
-
           <div>
             <label className="block text-green-200/90 mb-1">PASSWORD</label>
             <input
@@ -72,18 +64,15 @@ export default function AdminLoginPage() {
             />
           </div>
 
-
           {error && (
             <div className="text-orange-200 border border-orange-300/30 bg-black/40 rounded p-3">
               ERROR: {error}
             </div>
           )}
 
-
           <button className="btn-crt w-full" disabled={busy}>
             {busy ? "AUTHENTICATING..." : "LOGIN"}
           </button>
-
 
           <p className="text-green-300/60 text-sm">
             Tip: credentials come from <code>.env.local</code> (ADMIN_EMAIL / ADMIN_PASSWORD)
