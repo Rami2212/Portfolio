@@ -4,8 +4,11 @@ import { ProjectModel } from "@/models/Projects";
 import { requireAdmin } from "@/lib/auth";
 import { isCategory, isNonEmptyString, toSlug } from "@/lib/validator";
 
+interface Context {
+  params: { id: string };
+}
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: Context) {
   const auth = requireAdmin(req);
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: 401 });
 
@@ -50,7 +53,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 }
 
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: Context) {
   const auth = requireAdmin(req);
   if (!auth.ok) return NextResponse.json({ error: auth.error }, { status: 401 });
 
