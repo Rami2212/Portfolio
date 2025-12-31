@@ -35,7 +35,7 @@ export default function Skills() {
       const res = await fetch("/api/skills", { cache: "no-store" });
 
       if (!res.ok) {
-        console.error("Failed to load projects");
+        console.error("Failed to load skills");
         setSkills([]);
         return;
       }
@@ -47,9 +47,9 @@ export default function Skills() {
       }
 
       const json = JSON.parse(text);
-      setSkills(json.reviews || []);
+      setSkills(json.skills || []);
     } catch (err) {
-      console.error("Projects fetch error:", err);
+      console.error("Skills fetch error:", err);
       setSkills([]);
     } finally {
       setLoading(false);
