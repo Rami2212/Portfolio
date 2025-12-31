@@ -11,10 +11,9 @@ export function clearToken() {
   localStorage.removeItem("admin_token");
 }
 
-// Only allow FormData or string for fetch body
-type ApiFetchOptions = Omit<RequestInit, "body"> & {
+type ApiFetchOptions = Omit<RequestInit, 'body'> & {
   auth?: boolean;
-  body?: FormData | Record<string, any>;
+  body?: any;
 };
 
 export async function apiFetch<T>(
@@ -30,23 +29,19 @@ export async function apiFetch<T>(
 
   if (opts.auth) {
     const token = getToken();
-    if (token) headers.set("Authorization", `Bearer ${token}`);
-  }
-
-  // Convert body to a string or FormData
-  let body: BodyInit | undefined = undefined;
-  if (opts.body) {
-    if (opts.body instanceof FormData) {
-      body = opts.body;
-    } else {
-      body = JSON.stringify(opts.body); // now TS sees it as string | FormData
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
     }
   }
 
   const res = await fetch(path, {
     ...opts,
     headers,
-    body,
+    body: isFormData
+      ? opts.body
+      : opts.body
+      ? JSON.stringify(opts.body)
+      : undefined,
     cache: "no-store",
   });
 
