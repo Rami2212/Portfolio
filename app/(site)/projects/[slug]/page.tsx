@@ -21,8 +21,8 @@ type Project = {
   order: number;
 };
 
-export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
 
