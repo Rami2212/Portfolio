@@ -55,47 +55,45 @@ export default function SkillsCrud() {
   }
 
   async function submit() {
-    setError(null);
+  setError(null);
 
-    try {
-      if (!name.trim()) throw new Error("Name required");
+  try {
+    if (!name.trim()) throw new Error("Name required");
 
-      let finalIconUrl = iconUrl;
+    let finalIconUrl = iconUrl;
 
-      if (iconFile) {
-        finalIconUrl = await uploadSkillImage(iconFile, "skills");
-      }
-
-      if (!editingId) {
-        await apiFetch("/api/skills", {
-          method: "POST",
-          auth: true,
-          body: JSON.stringify({
-            name,
-            category,
-            iconUrl: finalIconUrl,
-            order,
-          }),
-        });
-      } else {
-        await apiFetch(`/api/skills/${editingId}`, {
-          method: "PATCH",
-          auth: true,
-          body: JSON.stringify({
-            name,
-            category,
-            iconUrl: finalIconUrl,
-            order,
-          }),
-        });
-      }
-
-      resetForm();
-      await load();
-    } catch (e: any) {
-      setError(e.message);
+    if (iconFile) {
+      finalIconUrl = await uploadSkillImage(iconFile, "skills");
     }
+
+    const payload = {
+      name,
+      category,
+      iconUrl: finalIconUrl,
+      order,
+    };
+
+    if (!editingId) {
+      await apiFetch("/api/skills", {
+        method: "POST",
+        auth: true,
+        body: payload, // plain object, no JSON.stringify
+      });
+    } else {
+      await apiFetch(`/api/skills/${editingId}`, {
+        method: "PATCH",
+        auth: true,
+        body: payload, // plain object, no JSON.stringify
+      });
+    }
+
+    resetForm();
+    await load();
+  } catch (e: any) {
+    setError(e.message);
   }
+}
+
 
   function startEdit(s: Skill) {
     setEditingId(s._id);
