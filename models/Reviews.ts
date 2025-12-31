@@ -1,6 +1,5 @@
 import mongoose, { Schema, InferSchemaType, Model } from "mongoose";
 
-
 const ReviewSchema = new Schema(
   {
     name: { type: String, required: true, trim: true },
@@ -10,9 +9,7 @@ const ReviewSchema = new Schema(
   { timestamps: true }
 );
 
-
 export type Review = InferSchemaType<typeof ReviewSchema>;
-
 
 export const ReviewModel: Model<Review> =
   mongoose.models.Review || mongoose.model("Review", ReviewSchema);

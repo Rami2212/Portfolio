@@ -3,7 +3,14 @@
 import { useEffect, useMemo, useState } from "react";
 import Section from "./Section";
 import Reveal from "./Reveal";
-import { skillsData, type Skill } from "../data/skillsData";
+
+type Skill = {
+  _id: string;
+  name: string;
+  category: "se" | "devops" | "aiml" | "other";
+  iconUrl: string;
+  order: number;
+};
 
 const LABELS: Record<Skill["category"], string> = {
   se: "Software Engineering",
@@ -12,31 +19,42 @@ const LABELS: Record<Skill["category"], string> = {
   other: "Other Tools",
 };
 
-
 export default function Skills() {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
-    // Using local data for now
-    setLoading(true);
-    setSkills(skillsData);
-    setLoading(false);
-
-
-    // API call commented out - uncomment when ready
-    /*
-    (async () => {
-      setLoading(true);
-      const res = await fetch("/api/skills", { cache: "no-store" });
-      const json = await res.json();
-      setSkills(json.skills || []);
-      setLoading(false);
-    })();
-    */
+    load();
   }, []);
 
+  async function load() {
+    try {
+      setLoading(true);
+
+      const res = await fetch("/api/skills", { cache: "no-store" });
+
+      if (!res.ok) {
+        console.error("Failed to load projects");
+        setSkills([]);
+        return;
+      }
+
+      const text = await res.text();
+      if (!text) {
+        setSkills([]);
+        return;
+      }
+
+      const json = JSON.parse(text);
+      setSkills(json.reviews || []);
+    } catch (err) {
+      console.error("Projects fetch error:", err);
+      setSkills([]);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const grouped = useMemo(() => {
     const g: Record<Skill["category"], Skill[]> = {

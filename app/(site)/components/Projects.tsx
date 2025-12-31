@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import Section from "./Section";
 import Reveal from "./Reveal";
 import ProjectCard from "./ProjectCard";
-import { projectsData, type Project } from "../data/projectsData";
 
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,13 +12,28 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+type Project = {
+  _id: string;
+  title: string;
+  slug: string;
+  category: "se" | "devops" | "aiml";
+  shortDescription: string;
+  longDescription?: string;
+  tags: string[];
+  coverImage?: string;
+  galleryImages: string[];
+  techStack: string[];
+  liveUrl?: string;
+  demoUrl?: string;
+  isFeatured: boolean;
+  order: number;
+};
 
 const LABELS: Record<Project["category"], string> = {
   se: "SE",
   devops: "DevOps",
   aiml: "AI/ML",
 };
-
 
 export default function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -28,11 +42,36 @@ export default function Projects() {
 
 
   useEffect(() => {
-    setLoading(true);
-    setProjects(projectsData);
-    setLoading(false);
+    load();
   }, []);
 
+  async function load() {
+    try {
+      setLoading(true);
+
+      const res = await fetch("/api/projects", { cache: "no-store" });
+
+      if (!res.ok) {
+        console.error("Failed to load projects");
+        setProjects([]);
+        return;
+      }
+
+      const text = await res.text();
+      if (!text) {
+        setProjects([]);
+        return;
+      }
+
+      const json = JSON.parse(text);
+      setProjects(json.reviews || []);
+    } catch (err) {
+      console.error("Projects fetch error:", err);
+      setProjects([]);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const filtered = useMemo(() => {
     const list = [...projects].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));

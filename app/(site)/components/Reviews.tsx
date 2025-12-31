@@ -11,7 +11,6 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-
 type Review = {
   _id: string;
   name: string;
@@ -21,25 +20,20 @@ type Review = {
   approved: boolean;
 };
 
-
 export default function Reviews() {
   const [items, setItems] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
 
-
   useEffect(() => {
     load();
   }, []);
-
 
   async function load() {
     try {
       setLoading(true);
 
-
       const res = await fetch("/api/reviews", { cache: "no-store" });
-
 
       if (!res.ok) {
         console.error("Failed to load reviews");
@@ -47,13 +41,11 @@ export default function Reviews() {
         return;
       }
 
-
       const text = await res.text();
       if (!text) {
         setItems([]);
         return;
       }
-
 
       const json = JSON.parse(text);
       setItems(json.reviews || []);
@@ -64,7 +56,6 @@ export default function Reviews() {
       setLoading(false);
     }
   }
-
 
   return (
     <Section
