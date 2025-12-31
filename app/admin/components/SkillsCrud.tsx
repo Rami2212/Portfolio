@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/adminClient";
-import { uploadSkillImage } from "@/lib/upload";
 
 type Skill = {
   _id: string;
@@ -18,7 +17,6 @@ export default function SkillsCrud() {
   const [items, setItems] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [iconFile, setIconFile] = useState<File | null>(null);
 
   // form
   const [name, setName] = useState("");
@@ -56,40 +54,23 @@ export default function SkillsCrud() {
 
   async function submit() {
     setError(null);
-
     try {
-      if (!name.trim()) throw new Error("Name required");
+      if (!name.trim() || !iconUrl.trim()) throw new Error("Name & iconUrl required");
 
-      let finalIconUrl = iconUrl;
-
-      if (iconFile) {
-        finalIconUrl = await uploadSkillImage(iconFile, "skills");
-      }
 
       if (!editingId) {
         await apiFetch("/api/skills", {
           method: "POST",
           auth: true,
-          body: {
-            name,
-            category,
-            iconUrl: finalIconUrl,
-            order,
-          },
+          body: JSON.stringify({ name, category, iconUrl, order }),
         });
       } else {
         await apiFetch(`/api/skills/${editingId}`, {
           method: "PATCH",
           auth: true,
-          body: {
-            name,
-            category,
-            iconUrl: finalIconUrl,
-            order,
-          },
+          body: JSON.stringify({ name, category, iconUrl, order }),
         });
       }
-
       resetForm();
       await load();
     } catch (e: any) {
@@ -97,14 +78,15 @@ export default function SkillsCrud() {
     }
   }
 
+
   function startEdit(s: Skill) {
     setEditingId(s._id);
     setName(s.name);
     setCategory(s.category);
     setIconUrl(s.iconUrl);
     setOrder(s.order || 0);
-    setIconFile(null);
   }
+
 
   async function remove(id: string) {
     if (!confirm("Delete this skill?")) return;
@@ -152,15 +134,9 @@ export default function SkillsCrud() {
 
 
           <div>
-            <label className="block mb-1 text-green-200/90">ICON IMAGE</label>
-            <input
-              type="file"
-              accept="image/*"
-              className="input-crt"
-              onChange={(e) => setIconFile(e.target.files?.[0] || null)}
-            />
+            <label className="block mb-1 text-green-200/90">ICON URL</label>
+            <input className="input-crt" value={iconUrl} onChange={(e) => setIconUrl(e.target.value)} />
           </div>
-
 
 
           <div>
