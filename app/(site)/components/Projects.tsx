@@ -64,7 +64,7 @@ export default function Projects() {
       }
 
       const json = JSON.parse(text);
-      setProjects(json.reviews || []);
+      setProjects(json.projects || []);
     } catch (err) {
       console.error("Projects fetch error:", err);
       setProjects([]);

@@ -3,8 +3,23 @@
 
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
-import { projectsData, type Project } from "./data/projectsData";
 
+type Project = {
+  _id: string;
+  title: string;
+  slug: string;
+  category: "se" | "devops" | "aiml";
+  shortDescription: string;
+  longDescription?: string;
+  tags: string[];
+  coverImage?: string;
+  galleryImages: string[];
+  techStack: string[];
+  liveUrl?: string;
+  demoUrl?: string;
+  isFeatured: boolean;
+  order: number;
+};
 
 export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
@@ -13,32 +28,36 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
 
 
   useEffect(() => {
-    // Using local data for now
-    setLoading(true);
-    const found = projectsData.find((p) => p.slug === slug);
-    setProject(found || null);
-    setLoading(false);
-
-
-    // API call commented out - uncomment when ready
-    /*
-    (async () => {
-      setLoading(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/projects/slug/${slug}`, {
-        cache: "no-store",
-      });
-      if (!res.ok) {
-        setProject(null);
-        setLoading(false);
-        return;
-      }
-      const json = await res.json();
-      setProject(json.project || null);
-      setLoading(false);
-    })();
-    */
+    load();
   }, [slug]);
 
+  async function load() {
+    try {
+      setLoading(true);
+
+      const res = await fetch(`/api/projects/${slug}`, { cache: "no-store" });
+
+      if (!res.ok) {
+        console.error("Failed to load project");
+        setProject(null);
+        return;
+      }
+
+      const text = await res.text();
+      if (!text) {
+        setProject(null);
+        return;
+      }
+
+      const json = JSON.parse(text);
+      setProject(json.project || null);
+    } catch (err) {
+      console.error("Project fetch error:", err);
+      setProject(null);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   if (loading) {
     return (

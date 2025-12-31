@@ -1,7 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { type Project } from "../data/projectsData";
+
+type Project = {
+  _id: string;
+  title: string;
+  slug: string;
+  category: "se" | "devops" | "aiml";
+  shortDescription: string;
+  longDescription?: string;
+  tags: string[];
+  coverImage?: string;
+  galleryImages: string[];
+  techStack: string[];
+  liveUrl?: string;
+  demoUrl?: string;
+  isFeatured: boolean;
+  order: number;
+};
 
 const LABELS: Record<Project["category"], string> = {
   se: "SE",
