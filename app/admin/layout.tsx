@@ -18,8 +18,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           rel="stylesheet"
         />
       </head>
-      <body className="crt terminal min-h-screen">
-        <div className="crt-flicker min-h-screen">
+      <body className="crt terminal">
+        <div className="crt-flicker">
           {children}
         </div>
       </body>

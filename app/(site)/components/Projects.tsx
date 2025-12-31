@@ -41,7 +41,6 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<Project["category"] | "all">("all");
 
-
   useEffect(() => {
     load();
   }, []);
@@ -79,7 +78,6 @@ export default function Projects() {
     return filter === "all" ? list : list.filter((p) => p.category === filter);
   }, [projects, filter]);
 
-
   return (
     <Section
       id="projects"
@@ -92,65 +90,75 @@ export default function Projects() {
         <div className="flex flex-wrap gap-3 mb-8 justify-between items-center">
           {/* Filter buttons left */}
           <div className="flex flex-wrap gap-3">
-            {(["all", "se", "devops", "aiml"] as const).map((k) => (
+            {(["all", "se", "devops", "aiml", "other"] as const).map((k) => (
               <button
                 key={k}
                 onClick={() => setFilter(k)}
-                className={`rounded-xl px-6 py-3 border transition-all duration-300 font-medium ${filter === k
+                className={`rounded-xl px-6 py-3 border transition-all duration-300 font-medium ${
+                  filter === k
                     ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white border-transparent shadow-lg shadow-purple-500/30"
                     : "bg-white/5 text-white/80 border-purple-400/20 hover:bg-white/10 hover:border-purple-400/40 backdrop-blur-sm"
-                  }`}
+                }`}
               >
-                {k === "all" ? "All Projects" : LABELS[k]}
+                {k === "all" ? "All Projects" : LABELS[k] || k.toUpperCase()}
               </button>
             ))}
           </div>
 
-
           {/* Controls right (arrows + dots) */}
-          <div className="flex items-center gap-4">
-            <button className="custom-prev group rounded-xl px-4 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg hover:scale-105 transition">
-              <svg
-                className="w-5 h-5 group-hover:-translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
+          {filtered.length > 2 && (
+            <div className="flex items-center gap-4">
+              <button className="custom-prev group rounded-xl px-4 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg hover:scale-105 transition">
+                <svg
+                  className="w-5 h-5 group-hover:-translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
 
+              <div className="custom-pagination flex gap-2"></div>
 
-            <div className="custom-pagination flex gap-2"></div>
-
-
-            <button className="custom-next group rounded-xl px-4 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg hover:scale-105 transition">
-              <svg
-                className="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
+              <button className="custom-next group rounded-xl px-4 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg hover:scale-105 transition">
+                <svg
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
-
 
         {loading ? (
           <div className="text-white/60 text-center py-12">Loading…</div>
+        ) : filtered.length === 0 ? (
+          <div className="text-white/60 text-center py-12">No projects found.</div>
+        ) : filtered.length <= 2 ? (
+          <div className="grid md:grid-cols-2 gap-6">
+            {filtered.map((p) => (
+              <ProjectCard key={p._id} project={p} />
+            ))}
+          </div>
         ) : (
           <Swiper
-            slidesPerView={2}
+            slidesPerView={1}
             spaceBetween={24}
+            breakpoints={{
+              768: {
+                slidesPerView: 2,
+              },
+            }}
             loop={true}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
             }}
-
-
             modules={[Navigation, Pagination, Autoplay]}
             pagination={{
               el: ".custom-pagination",
@@ -159,10 +167,10 @@ export default function Projects() {
               bulletActiveClass: "swiper-pagination-bullet-active !bg-blue-600",
             }}
             navigation={{ prevEl: ".custom-prev", nextEl: ".custom-next" }}
-            className="pb-8 items-stretch"
+            className="pb-8"
           >
             {filtered.map((p) => (
-              <SwiperSlide key={p._id} className="h-auto flex">
+              <SwiperSlide key={p._id} className="h-auto">
                 <ProjectCard project={p} />
               </SwiperSlide>
             ))}

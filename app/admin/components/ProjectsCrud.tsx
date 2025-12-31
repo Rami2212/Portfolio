@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/adminClient";
-import { uploadSkillImage } from "@/lib/upload";
+import { uploadProjectImage } from "@/lib/upload";
 
 type Project = {
   _id: string;
@@ -98,14 +98,14 @@ export default function ProjectsCrud() {
 
       // Upload cover image if file selected
       if (coverImageFile) {
-        finalCoverImage = await uploadSkillImage(coverImageFile, "projects");
+        finalCoverImage = await uploadProjectImage(coverImageFile, "projects");
       }
 
       // Upload gallery images if files selected
       if (galleryFiles && galleryFiles.length > 0) {
         const uploadedGallery: string[] = [];
         for (let i = 0; i < galleryFiles.length; i++) {
-          const url = await uploadSkillImage(galleryFiles[i], "projects");
+          const url = await uploadProjectImage(galleryFiles[i], "projects");
           uploadedGallery.push(url);
         }
         finalGalleryImages = [...finalGalleryImages, ...uploadedGallery];
@@ -189,7 +189,7 @@ export default function ProjectsCrud() {
 
       <div className="grid md:grid-cols-2 gap-4">
         {/* Form */}
-        <div className="card-crt p-4 space-y-3 max-h-[80vh] overflow-y-auto">
+        <div className="card-crt p-4 space-y-3 flex flex-col">
           <div className="text-green-300/70">EDITOR</div>
 
           <div>
@@ -334,7 +334,7 @@ export default function ProjectsCrud() {
         </div>
 
         {/* List */}
-        <div className="card-crt p-4 max-h-[80vh] overflow-y-auto">
+        <div className="card-crt p-4">
           <div className="text-green-300/70 mb-3">LIST</div>
 
           {loading ? (

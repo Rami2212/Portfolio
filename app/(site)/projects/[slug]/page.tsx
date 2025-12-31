@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 type Project = {
@@ -24,7 +24,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
   const { slug } = params;
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     load();
@@ -66,7 +65,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
     );
   }
 
-
   if (!project) {
     return (
       <main className="min-h-screen relative px-6 py-16 flex items-center justify-center">
@@ -87,14 +85,12 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
     );
   }
 
-
   const categoryLabels: Record<Project["category"], string> = {
     se: "Software Engineering",
     devops: "DevOps",
     aiml: "AI / ML",
     other: "Other",
   };
-
 
   return (
     <main className="min-h-screen relative px-6 py-16">
@@ -110,7 +106,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
           Back to Projects
         </Link>
 
-
         {/* Header */}
         <div className="mt-8">
           <div className="flex items-center gap-3 mb-4">
@@ -124,7 +119,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
             )}
           </div>
 
-
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
             {project.title}
           </h1>
@@ -134,7 +128,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
           </p>
         </div>
 
-
         {/* Cover Image */}
         {project.coverImage && (
           <div className="mt-8 rounded-2xl border border-purple-400/20 overflow-hidden bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-sm">
@@ -142,10 +135,12 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
               src={project.coverImage}
               alt={project.title}
               className="w-full h-[400px] object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
             />
           </div>
         )}
-
 
         {/* Action Buttons */}
         {(project.liveUrl || project.demoUrl) && (
@@ -180,7 +175,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
           </div>
         )}
 
-
         {/* Content Grid */}
         <div className="mt-8 grid gap-6">
           {/* Long Description */}
@@ -192,7 +186,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
               </div>
             </div>
           )}
-
 
           {/* Tech Stack */}
           {project.techStack?.length > 0 && (
@@ -211,7 +204,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
             </div>
           )}
 
-
           {/* Gallery */}
           {project.galleryImages?.length > 0 && (
             <div className="rounded-2xl border border-purple-400/20 bg-gradient-to-br from-white/5 to-white/[0.02] p-8 backdrop-blur-sm">
@@ -223,13 +215,15 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
                       src={img}
                       alt={`${project.title} screenshot ${index + 1}`}
                       className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23444" width="100" height="100"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EImage%3C/text%3E%3C/svg%3E';
+                      }}
                     />
                   </div>
                 ))}
               </div>
             </div>
           )}
-
 
           {/* Tags */}
           {project.tags?.length > 0 && (
@@ -248,7 +242,6 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
             </div>
           )}
         </div>
-
 
         {/* Bottom Navigation */}
         <div className="mt-12 pt-8 border-t border-purple-400/20">
