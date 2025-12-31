@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "(site)/components/models/Avatar.jsx"  ],
+  ],
   "exclude": ["node_modules"]
 }

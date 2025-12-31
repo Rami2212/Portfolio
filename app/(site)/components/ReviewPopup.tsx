@@ -1,14 +1,12 @@
 "use client";
 
-
 import { useState } from "react";
-
+import { createPortal } from "react-dom";
 
 type Props = {
   onClose: () => void;
   onSuccess?: () => void;
 };
-
 
 export default function ReviewPopup({ onClose, onSuccess }: Props) {
   const [name, setName] = useState("");
@@ -18,12 +16,10 @@ export default function ReviewPopup({ onClose, onSuccess }: Props) {
   const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setStatus(null);
-
 
     const res = await fetch("/api/reviews", {
       method: "POST",
@@ -31,9 +27,7 @@ export default function ReviewPopup({ onClose, onSuccess }: Props) {
       body: JSON.stringify({ name, position, company, text }),
     });
 
-
     const json = await res.json().catch(() => ({}));
-
 
     if (!res.ok) {
       setStatus(json?.error || "Failed to submit");
@@ -41,36 +35,31 @@ export default function ReviewPopup({ onClose, onSuccess }: Props) {
       return;
     }
 
-
     setStatus("success");
     setName("");
     setPosition("");
     setCompany("");
     setText("");
     setLoading(false);
-   
-    // Call onSuccess callback to refresh reviews
-    if (onSuccess) {
-      onSuccess();
-    }
-   
-    // Auto close after 2 seconds
+
+    if (onSuccess) onSuccess();
+
     setTimeout(() => {
       onClose();
     }, 2000);
   }
 
+  if (typeof window === "undefined") return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md px-4 animate-fadeIn"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md px-4 animate-fadeIn"
       onClick={onClose}
     >
       <div
         className="relative w-full max-w-lg rounded-2xl border border-purple-400/20 bg-gradient-to-br from-black/90 to-black/70 p-8 shadow-2xl shadow-purple-500/20 backdrop-blur-xl animate-slideUp"
         onClick={(e) => e.stopPropagation()}
       >
-       
         {/* Header */}
         <div className="flex items-start justify-between mb-6">
           <div>
@@ -253,6 +242,7 @@ export default function ReviewPopup({ onClose, onSuccess }: Props) {
           animation: slideDown 0.3s ease-out;
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 }
