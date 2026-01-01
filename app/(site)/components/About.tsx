@@ -18,7 +18,7 @@ export default function About() {
             <div className="rounded-2xl border border-purple-400/20 bg-gradient-to-br from-white/5 to-white/[0.02] p-6 backdrop-blur-sm overflow-hidden">
               <div className="aspect-square relative rounded-xl overflow-hidden bg-gradient-to-br from-purple-500/20 to-blue-500/20">
                 <img
-                  src="https://drive.google.com/uc?export=view&id=1IqrUvekOefD6v4uDn109W1Rd7Gw_BUSi"
+                  src="https://res.cloudinary.com/dguetefwg/image/upload/v1767270526/my-photo_r29gaf.jpg"
                   alt="Ramitha Iddamalgoda"
                   className="w-full h-full object-cover"
                 />
