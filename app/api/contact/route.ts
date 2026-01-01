@@ -8,8 +8,8 @@ export async function POST(req: Request) {
   const email = String(body?.email || "").trim();
   const message = String(body?.message || "").trim();
 
-  if (!name || !email || message.length < 5) {
-    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+  if (!name || !email || !message) {
+    return NextResponse.json({ error: "Please provide all required fields" }, { status: 400 });
   }
 
   await connectDB();

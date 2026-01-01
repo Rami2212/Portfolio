@@ -19,8 +19,12 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
   const { name, position, company, text } = body ?? {};
 
-  if (!isNonEmptyString(name) || !isNonEmptyString(text, 5)) {
-    return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
+  if (!isNonEmptyString(name)) {
+    return NextResponse.json({ error: "Please provide all required fields" }, { status: 400 });
+  }
+
+  if (!isNonEmptyString(text, 5)) {
+    return NextResponse.json({ error: "Review text must be at least 5 characters long" }, { status: 400 });
   }
 
   await connectDB();
