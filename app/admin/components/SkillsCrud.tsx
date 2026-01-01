@@ -23,16 +23,31 @@ export default function SkillsCrud() {
   const [category, setCategory] = useState<Skill["category"]>("se");
   const [iconUrl, setIconUrl] = useState("");
   const [order, setOrder] = useState<number>(0);
+  const [manualIconEdit, setManualIconEdit] = useState(false);
 
   // edit
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  // Generate icon URL from name
+  const generateIconUrl = (skillName: string): string => {
+    if (!skillName.trim()) return "";
+    const normalized = skillName.toLowerCase().trim().replace(/\s+/g, "");
+    return `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${normalized}/${normalized}-original.svg`;
+  };
+
+  // Auto-fill icon URL when name changes (unless manually edited)
+  useEffect(() => {
+    if (!manualIconEdit && name && !editingId) {
+      setIconUrl(generateIconUrl(name));
+    }
+  }, [name, manualIconEdit, editingId]);
 
   async function load() {
     setLoading(true);
     setError(null);
     try {
-      const res = await apiFetch<{ skills: Skill[] }>("/api/skills");
-      setItems(res.skills);
+      const res: any = await apiFetch("/api/skills");
+      setItems(res?.skills || []);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -50,6 +65,7 @@ export default function SkillsCrud() {
     setIconUrl("");
     setOrder(0);
     setEditingId(null);
+    setManualIconEdit(false);
   }
 
   async function submit() {
@@ -57,18 +73,17 @@ export default function SkillsCrud() {
     try {
       if (!name.trim() || !iconUrl.trim()) throw new Error("Name & iconUrl required");
 
-
       if (!editingId) {
         await apiFetch("/api/skills", {
           method: "POST",
           auth: true,
-          body: ({ name, category, iconUrl, order }),
+          body: { name, category, iconUrl, order },
         });
       } else {
         await apiFetch(`/api/skills/${editingId}`, {
           method: "PATCH",
           auth: true,
-          body: ({ name, category, iconUrl, order }),
+          body: { name, category, iconUrl, order },
         });
       }
       resetForm();
@@ -78,15 +93,14 @@ export default function SkillsCrud() {
     }
   }
 
-
   function startEdit(s: Skill) {
     setEditingId(s._id);
     setName(s.name);
     setCategory(s.category);
     setIconUrl(s.iconUrl);
     setOrder(s.order || 0);
+    setManualIconEdit(true); // Prevent auto-fill when editing
   }
-
 
   async function remove(id: string) {
     if (!confirm("Delete this skill?")) return;
@@ -99,6 +113,22 @@ export default function SkillsCrud() {
     }
   }
 
+  function handleNameChange(value: string) {
+    setName(value);
+    if (!editingId) {
+      setManualIconEdit(false); // Reset manual edit flag when name changes
+    }
+  }
+
+  function handleIconUrlChange(value: string) {
+    setIconUrl(value);
+    setManualIconEdit(true); // Mark as manually edited
+  }
+
+  function regenerateIconUrl() {
+    setIconUrl(generateIconUrl(name));
+    setManualIconEdit(false);
+  }
 
   return (
     <section className="card-crt p-5 space-y-4">
@@ -107,21 +137,22 @@ export default function SkillsCrud() {
         <button className="btn-crt" onClick={load}>REFRESH</button>
       </div>
 
-
       <hr className="hr-crt" />
-
 
       <div className="grid md:grid-cols-2 gap-4">
         {/* Form */}
         <div className="card-crt p-4 space-y-3">
           <div className="text-green-300/70">EDITOR</div>
 
-
           <div>
             <label className="block mb-1 text-green-200/90">NAME</label>
-            <input className="input-crt" value={name} onChange={(e) => setName(e.target.value)} />
+            <input 
+              className="input-crt" 
+              value={name} 
+              onChange={(e) => handleNameChange(e.target.value)}
+              placeholder="e.g., typescript, react, python"
+            />
           </div>
-
 
           <div>
             <label className="block mb-1 text-green-200/90">CATEGORY</label>
@@ -132,12 +163,32 @@ export default function SkillsCrud() {
             </select>
           </div>
 
-
           <div>
-            <label className="block mb-1 text-green-200/90">ICON URL</label>
-            <input className="input-crt" value={iconUrl} onChange={(e) => setIconUrl(e.target.value)} />
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-green-200/90">ICON URL</label>
+              {name && (
+                <button
+                  type="button"
+                  onClick={regenerateIconUrl}
+                  className="text-xs px-2 py-1 bg-blue-500/20 border border-blue-400/50 text-blue-300 rounded hover:bg-blue-500/30 transition-colors"
+                >
+                  ↻ REGENERATE
+                </button>
+              )}
+            </div>
+            <input 
+              className="input-crt text-sm" 
+              value={iconUrl} 
+              onChange={(e) => handleIconUrlChange(e.target.value)}
+              placeholder="Auto-fills from name..."
+            />
+            {iconUrl && (
+              <div className="mt-2 flex items-center gap-2 p-2 bg-black/40 rounded border border-green-400/20">
+                <img src={iconUrl} alt="Icon preview" className="w-8 h-8" onError={(e) => e.currentTarget.style.display = 'none'} />
+                <span className="text-green-300/60 text-xs truncate">{iconUrl}</span>
+              </div>
+            )}
           </div>
-
 
           <div>
             <label className="block mb-1 text-green-200/90">ORDER</label>
@@ -149,13 +200,11 @@ export default function SkillsCrud() {
             />
           </div>
 
-
           {error && (
             <div className="text-orange-200 border border-orange-300/30 bg-black/40 rounded p-3">
               ERROR: {error}
             </div>
           )}
-
 
           <div className="flex gap-2">
             <button className="btn-crt" onClick={submit}>
@@ -167,11 +216,9 @@ export default function SkillsCrud() {
           </div>
         </div>
 
-
         {/* List */}
         <div className="card-crt p-4">
           <div className="text-green-300/70 mb-3">LIST</div>
-
 
           {loading ? (
             <div className="text-green-300/70">LOADING...</div>
