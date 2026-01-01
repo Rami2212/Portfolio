@@ -8,20 +8,16 @@ import SkillsCrud from "./components/SkillsCrud";
 import ProjectsCrud from "./components/ProjectsCrud";
 import ReviewsModeration from "./components/ReviewsModeration";
 
-
 type TabKey = "skills" | "projects" | "reviews";
-
 
 export default function AdminPage() {
   const router = useRouter();
   const [tab, setTab] = useState<TabKey>("skills");
 
-
   useEffect(() => {
     const token = getToken();
     if (!token) router.replace("/admin/login");
   }, [router]);
-
 
   const tabs = useMemo(
     () => [
@@ -32,15 +28,13 @@ export default function AdminPage() {
     []
   );
 
-
   function logout() {
     clearToken();
     router.replace("/admin/login");
   }
 
-
   return (
-    <main className="min-h-screen p-6">
+    <main className="p-6">
       <div className="max-w-6xl mx-auto space-y-5">
         <header className="card-crt p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
@@ -51,14 +45,12 @@ export default function AdminPage() {
             </div>
           </div>
 
-
           <div className="flex gap-2">
             <button className="btn-crt btn-amber" onClick={logout}>
               LOGOUT
             </button>
           </div>
         </header>
-
 
         <nav className="card-crt p-3 flex gap-2 flex-wrap">
           {tabs.map((t) => (
@@ -73,7 +65,6 @@ export default function AdminPage() {
             </button>
           ))}
         </nav>
-
 
         {tab === "skills" && <SkillsCrud />}
         {tab === "projects" && <ProjectsCrud />}

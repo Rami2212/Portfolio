@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 
-
 export const metadata: Metadata = {
   title: "Admin • Portfolio",
 };
 
-
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <>
       <head>
         {/* VT323 pixel font */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,7 +21,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {children}
         </div>
       </body>
-    </html>
+    </>
   );
 }
 
