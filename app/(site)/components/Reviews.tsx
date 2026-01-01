@@ -80,7 +80,7 @@ export default function Reviews() {
         ) : (
           <div className="relative">
             <Swiper
-              slidesPerView={1}
+              slidesPerView={3}
               spaceBetween={24}
               loop
               autoplay={{ delay: 5000, disableOnInteraction: false }}
