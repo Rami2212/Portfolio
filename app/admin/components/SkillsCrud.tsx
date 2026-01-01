@@ -62,13 +62,13 @@ export default function SkillsCrud() {
         await apiFetch("/api/skills", {
           method: "POST",
           auth: true,
-          body: JSON.stringify({ name, category, iconUrl, order }),
+          body: ({ name, category, iconUrl, order }),
         });
       } else {
         await apiFetch(`/api/skills/${editingId}`, {
           method: "PATCH",
           auth: true,
-          body: JSON.stringify({ name, category, iconUrl, order }),
+          body: ({ name, category, iconUrl, order }),
         });
       }
       resetForm();

@@ -1,24 +1,22 @@
 "use client";
 
-
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/adminClient";
-
 
 type Review = {
   _id: string;
   name: string;
+  position?: string;
+  company?: string;
   text: string;
   approved: boolean;
   createdAt?: string;
 };
 
-
 export default function ReviewsModeration() {
   const [items, setItems] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
 
   async function load() {
     setLoading(true);
@@ -34,11 +32,9 @@ export default function ReviewsModeration() {
     }
   }
 
-
   useEffect(() => {
     load();
   }, []);
-
 
   async function setApproved(id: string, approved: boolean) {
     setError(null);
@@ -46,14 +42,13 @@ export default function ReviewsModeration() {
       await apiFetch(`/api/reviews/${id}`, {
         method: "PATCH",
         auth: true,
-        body: JSON.stringify({ approved }),
+        body: ({ approved }),
       });
       await load();
     } catch (e: any) {
       setError(e.message);
     }
   }
-
 
   async function remove(id: string) {
     if (!confirm("Delete this review?")) return;
@@ -66,7 +61,6 @@ export default function ReviewsModeration() {
     }
   }
 
-
   return (
     <section className="card-crt p-5 space-y-4">
       <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -74,16 +68,13 @@ export default function ReviewsModeration() {
         <button className="btn-crt" onClick={load}>REFRESH</button>
       </div>
 
-
       <hr className="hr-crt" />
-
 
       {error && (
         <div className="text-orange-200 border border-orange-300/30 bg-black/40 rounded p-3">
           ERROR: {error}
         </div>
       )}
-
 
       {loading ? (
         <div className="text-green-300/70">LOADING...</div>
@@ -99,11 +90,13 @@ export default function ReviewsModeration() {
                   <div className="text-green-300/60">
                     status: {r.approved ? "APPROVED" : "PENDING"}
                   </div>
+                  <div className="text-green-300/60">
+                    {r.position}{r.position && r.company ? ", " : ""}{r.company}
+                  </div>
                   <div className="text-green-200/90 mt-2 whitespace-pre-wrap">
                     {r.text}
                   </div>
                 </div>
-
 
                 <div className="flex gap-2 shrink-0 flex-wrap">
                   {r.approved ? (

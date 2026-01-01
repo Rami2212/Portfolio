@@ -3,6 +3,8 @@ import mongoose, { Schema, InferSchemaType, Model } from "mongoose";
 const ReviewSchema = new Schema(
   {
     name: { type: String, required: true, trim: true },
+    position: { type: String, trim: true },
+    company: { type: String, trim: true },
     text: { type: String, required: true, trim: true },
     approved: { type: Boolean, default: false },
   },
