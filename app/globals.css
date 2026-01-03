@@ -15,7 +15,7 @@
               linear-gradient(180deg, #050706, #070c09 50%, #050706);
   color: var(--crt-text);
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 

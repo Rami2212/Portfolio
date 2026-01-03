@@ -7,8 +7,9 @@ import { clearToken, getToken } from "@/lib/adminClient";
 import SkillsCrud from "./components/SkillsCrud";
 import ProjectsCrud from "./components/ProjectsCrud";
 import ReviewsModeration from "./components/ReviewsModeration";
+import ContactsCrud from "./components/ContactsCrud";
 
-type TabKey = "skills" | "projects" | "reviews";
+type TabKey = "skills" | "projects" | "reviews" | "contacts";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -24,6 +25,7 @@ export default function AdminPage() {
       { key: "skills" as const, label: "SKILLS" },
       { key: "projects" as const, label: "PROJECTS" },
       { key: "reviews" as const, label: "REVIEWS" },
+      { key: "contacts" as const, label: "CONTACTS" },
     ],
     []
   );
@@ -41,7 +43,7 @@ export default function AdminPage() {
             <div className="text-green-300/70">SYSTEM:</div>
             <h1 className="text-4xl text-green-200">PORTFOLIO ADMIN</h1>
             <div className="text-green-300/60">
-              Use the panels below to manage content.
+              VERSION 1.2.0
             </div>
           </div>
 
@@ -69,6 +71,7 @@ export default function AdminPage() {
         {tab === "skills" && <SkillsCrud />}
         {tab === "projects" && <ProjectsCrud />}
         {tab === "reviews" && <ReviewsModeration />}
+        {tab === "contacts" && <ContactsCrud />}
       </div>
     </main>
   );

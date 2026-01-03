@@ -20,7 +20,7 @@ export default function HomePage() {
         <Contact />
 
         <footer className="py-10 text-center text-white/50">
-          © {new Date().getFullYear()} • Built by Ramitha Iddamalgoda
+          © {new Date().getFullYear()} • Built by Ramitha Iddamalgoda • v1.1.0
         </footer>
       </div>
     </main>

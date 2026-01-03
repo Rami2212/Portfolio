@@ -35,7 +35,7 @@ export default function AdminLoginPage() {
       <div className="card-crt w-full max-w-lg p-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl text-green-200">ADMIN TERMINAL</h1>
-          <span className="text-green-300/70">v1.0</span>
+          <span className="text-green-300/70">v1.2.0</span>
         </div>
 
         <hr className="hr-crt my-4" />
@@ -74,9 +74,6 @@ export default function AdminLoginPage() {
             {busy ? "AUTHENTICATING..." : "LOGIN"}
           </button>
 
-          <p className="text-green-300/60 text-sm">
-            Tip: credentials come from <code>.env.local</code> (ADMIN_EMAIL / ADMIN_PASSWORD)
-          </p>
         </form>
       </div>
     </main>
