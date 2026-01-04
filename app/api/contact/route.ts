@@ -23,5 +23,5 @@ export async function GET() {
   await connectDB();
   const Contact = mongoose.connection.collection("contacts");
   const contacts = await Contact.find().sort({ createdAt: -1 }).toArray();
-  return NextResponse.json(contacts);
+  return NextResponse.json({ contacts });
 }
