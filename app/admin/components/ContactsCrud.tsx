@@ -21,7 +21,7 @@ export default function ContactCrud() {
     setLoading(true);
     setError(null);
     try {
-      const res: any = await apiFetch("/api/contact");
+      const res = await apiFetch<{ contacts: Contact[] }>("/api/contact");
       setItems(res?.contacts || []);
     } catch (e: any) {
       setError(e.message);
