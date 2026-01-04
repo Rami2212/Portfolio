@@ -86,11 +86,27 @@ export default function Reviews() {
               autoplay={{ delay: 5000, disableOnInteraction: false }}
               pagination={{
                 clickable: true,
-                bulletActiveClass: 'swiper-pagination-bullet-active !bg-gradient-to-r !from-purple-500 !to-blue-500'
+                bulletActiveClass:
+                  "swiper-pagination-bullet-active !bg-gradient-to-r !from-purple-500 !to-blue-500",
+              }}
+              breakpoints={{
+                0: {
+                  slidesPerView: 1,
+                },
+                640: {
+                  slidesPerView: 1,
+                },
+                768: {
+                  slidesPerView: 2,
+                },
+                1024: {
+                  slidesPerView: 3,
+                },
               }}
               modules={[Pagination, Autoplay]}
               className="pb-12"
             >
+
               {items.map((r) => (
                 <SwiperSlide key={r._id}>
                   <div className="mx-auto max-w-4xl rounded-2xl border border-purple-400/20 bg-gradient-to-br from-white/5 to-white/[0.02] p-8 md:p-12 backdrop-blur-sm">
