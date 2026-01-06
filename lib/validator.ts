@@ -4,7 +4,7 @@ export function isNonEmptyString(v: unknown, min = 1) {
 
 
 export function isCategory(v: unknown) {
-  return v === "se" || v === "devops" || v === "aiml";
+  return v === "se" || v === "devops" || v === "aiml" || v === "other";
 }
 
 
