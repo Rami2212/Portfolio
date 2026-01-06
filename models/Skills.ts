@@ -7,7 +7,7 @@ const SkillSchema = new Schema(
     category: {
       type: String,
       required: true,
-      enum: ["se", "devops", "aiml"], // categories hardcoded
+      enum: ["se", "devops", "aiml", "other"],
     },
     iconUrl: { type: String, required: true, trim: true },
     order: { type: Number, default: 0 },
