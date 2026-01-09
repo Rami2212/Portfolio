@@ -16,7 +16,7 @@ type Project = {
   _id: string;
   title: string;
   slug: string;
-  category: "se" | "devops" | "aiml" | "other";
+  category: "se" | "devops" | "aiml"; // | "other";
   shortDescription: string;
   longDescription?: string;
   tags: string[];
@@ -33,7 +33,7 @@ const LABELS: Record<Project["category"], string> = {
   se: "SE",
   devops: "DevOps",
   aiml: "AI/ML",
-  other: "Other",
+  //other: "Other",
 };
 
 export default function Projects() {
@@ -90,7 +90,7 @@ export default function Projects() {
         <div className="flex flex-wrap gap-3 mb-8 justify-between items-center">
           {/* Filter buttons left */}
           <div className="flex flex-wrap gap-3">
-            {(["all", "se", "devops", "aiml", "other"] as const).map((k) => (
+            {(["all", "se", "devops", "aiml" /*, "other"*/] as const).map((k) => (
               <button
                 key={k}
                 onClick={() => setFilter(k)}

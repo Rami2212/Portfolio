@@ -140,7 +140,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
             <img
               src={project.coverImage}
               alt={project.title}
-              className="w-full h-[400px] object-cover"
+              className="w-full h-[600px] object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}
