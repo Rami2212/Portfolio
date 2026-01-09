@@ -23,6 +23,7 @@ type Project = {
 export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const [slug, setSlug] = useState<string | null>(null);
   const [project, setProject] = useState<Project | null>(null);
+  const [openImage, setOpenImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
 
   async function load() {
     if (!slug) return;
-    
+
     try {
       setLoading(true);
 
@@ -98,6 +99,36 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
     other: "Other",
   };
 
+  {
+    openImage && (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+        onClick={() => setOpenImage(null)}
+      >
+        <div
+          className="relative max-w-6xl max-h-[90vh] p-4"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Close Button */}
+          <button
+            onClick={() => setOpenImage(null)}
+            className="absolute top-2 right-2 text-white/80 hover:text-white text-3xl"
+          >
+            ✕
+          </button>
+
+          {/* Image */}
+          <img
+            src={openImage}
+            alt="Preview"
+            className="max-h-[85vh] w-auto rounded-xl shadow-2xl"
+          />
+        </div>
+      </div>
+    )
+  }
+
+
   return (
     <main className="min-h-screen relative px-6 py-16">
       <div className="mx-auto max-w-5xl">
@@ -128,7 +159,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
             {project.title}
           </h1>
-         
+
           <p className="text-xl text-white/70 leading-relaxed max-w-3xl">
             {project.shortDescription}
           </p>
@@ -143,6 +174,11 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
               className="w-full h-[600px] object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
+              }}
+              onClick={() => {
+                if (project.coverImage) {
+                  setOpenImage(project.coverImage);
+                }
               }}
             />
           </div>
@@ -224,6 +260,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                       onError={(e) => {
                         e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23444" width="100" height="100"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EImage%3C/text%3E%3C/svg%3E';
                       }}
+                      onClick={() => setOpenImage(img)}
                     />
                   </div>
                 ))}
