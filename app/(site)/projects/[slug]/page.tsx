@@ -99,36 +99,6 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
     other: "Other",
   };
 
-  {
-    openImage && (
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-        onClick={() => setOpenImage(null)}
-      >
-        <div
-          className="relative max-w-6xl max-h-[90vh] p-4"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Close Button */}
-          <button
-            onClick={() => setOpenImage(null)}
-            className="absolute top-2 right-2 text-white/80 hover:text-white text-3xl"
-          >
-            ✕
-          </button>
-
-          {/* Image */}
-          <img
-            src={openImage}
-            alt="Preview"
-            className="max-h-[85vh] w-auto rounded-xl shadow-2xl"
-          />
-        </div>
-      </div>
-    )
-  }
-
-
   return (
     <main className="min-h-screen relative px-6 py-16">
       <div className="mx-auto max-w-5xl">
@@ -299,6 +269,35 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
           </Link>
         </div>
       </div>
+
+      {
+        openImage && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            onClick={() => setOpenImage(null)}
+          >
+            <div
+              className="relative max-w-6xl max-h-[90vh] p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setOpenImage(null)}
+                className="absolute top-2 right-2 text-white/80 hover:text-white text-3xl"
+              >
+                ✕
+              </button>
+
+              {/* Image */}
+              <img
+                src={openImage}
+                alt="Preview"
+                className="max-h-[85vh] w-auto rounded-xl shadow-2xl"
+              />
+            </div>
+          </div>
+        )
+      }
     </main>
   );
 }
