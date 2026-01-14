@@ -21,10 +21,18 @@ const EDUCATION = [
     duration: "2023 — 2027",
     points: [
       "Specialized in Software Engineering and Systems Development",
-      "Relevant coursework: Data Structures, Algorithms, Database, Web Technologies",
-      "Active participant in tech communities and hackathons"
+      "Current GPA: 3.8",
     ],
   },
+  {
+    degree: "GCE Advanced Level",
+    institution: "R/Sivali Central College, Ratnapura",
+    duration: "2019 — 2022",
+    points: [
+      "Stream: Combined Mathematics, Physics, ICT",
+      "3As | Z-Score: 2.0491",
+    ],
+  }
 ];
 
 
