@@ -105,7 +105,7 @@ export default function Skills() {
                         <img
                           src={s.iconUrl}
                           alt={s.name}
-                          className="h-10 w-10 rounded object-contain"
+                          className="h-8 w-8 rounded object-contain"
                           loading="lazy"
                         />
                         <div className="text-white/90 font-medium">{s.name}</div>

@@ -65,12 +65,12 @@ export default function Hero() {
                   href="/cv/software-engineer.pdf"
                   download
                 >
-                  <span className="relative z-10">Download CV (SE)</span>
+                  <span className="relative z-10">Download CV</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </a>
 
 
-                <a
+                {/* <a
                   className="rounded-xl border border-purple-400/30 bg-white/5 px-8 py-4 font-semibold text-white hover:bg-white/10 hover:border-purple-400/50 hover:scale-[1.02] transition-all duration-300 backdrop-blur-xl shadow-lg text-center"
                   href="/cv/devops.pdf"
                   download
@@ -85,7 +85,7 @@ export default function Hero() {
                   download
                 >
                   AI/ML CV
-                </a>
+                </a> */}
               </div>
 
 

@@ -95,7 +95,6 @@ export default function About() {
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="tertiary">Python</Badge>
                     <Badge variant="tertiary">TensorFlow</Badge>
-                    <Badge variant="tertiary">PyTorch</Badge>
                     <Badge variant="tertiary">scikit-learn</Badge>
                     <Badge variant="tertiary">PostgreSQL</Badge>
                     <Badge variant="tertiary">MongoDB</Badge>
