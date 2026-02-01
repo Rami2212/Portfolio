@@ -7,9 +7,9 @@ export default function Hero() {
       {/* Enhanced glow effects */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute right-1/4 top-1/3 h-[800px] w-[800px] rounded-full bg-purple-500/20 blur-[150px] animate-pulse"
-             style={{ animationDuration: '8s' }} />
+          style={{ animationDuration: '8s' }} />
         <div className="absolute left-1/4 bottom-1/3 h-[600px] w-[600px] rounded-full bg-blue-500/20 blur-[150px] animate-pulse"
-             style={{ animationDuration: '10s', animationDelay: '2s' }} />
+          style={{ animationDuration: '10s', animationDelay: '2s' }} />
       </div>
 
 
@@ -52,7 +52,7 @@ export default function Hero() {
                     AI/ML
                   </span>
                 </div>
-               
+
                 <p className="text-lg md:text-xl text-white/70 leading-relaxed">
                   Building fast, reliable systems with clean and modern user experiences that push the boundaries of what's possible.
                 </p>
@@ -62,15 +62,15 @@ export default function Hero() {
               <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-2 lg:pt-4 w-full sm:w-auto justify-center lg:justify-start">
                 <a
                   className="group relative rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 px-8 py-4 text-white font-semibold shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 hover:scale-[1.02] overflow-hidden text-center"
-                  href="/cv/software-engineer.pdf"
+                  href="/cv/se.pdf"
                   download
                 >
-                  <span className="relative z-10">Download CV</span>
+                  <span className="relative z-10">Download SE CV</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </a>
 
 
-                {/* <a
+                <a
                   className="rounded-xl border border-purple-400/30 bg-white/5 px-8 py-4 font-semibold text-white hover:bg-white/10 hover:border-purple-400/50 hover:scale-[1.02] transition-all duration-300 backdrop-blur-xl shadow-lg text-center"
                   href="/cv/devops.pdf"
                   download
@@ -78,7 +78,7 @@ export default function Hero() {
                   DevOps CV
                 </a>
 
-
+                {/* 
                 <a
                   className="rounded-xl border border-blue-400/30 bg-white/5 px-8 py-4 font-semibold text-white hover:bg-white/10 hover:border-blue-400/50 hover:scale-[1.02] transition-all duration-300 backdrop-blur-xl shadow-lg text-center"
                   href="/cv/aiml.pdf"
