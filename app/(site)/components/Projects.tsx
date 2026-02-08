@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import Section from "./Section";
 import Reveal from "./Reveal";
 import ProjectCard from "./ProjectCard";
@@ -74,8 +75,13 @@ export default function Projects() {
   }
 
   const filtered = useMemo(() => {
-    const list = [...projects].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-    return filter === "all" ? list : list.filter((p) => p.category === filter);
+    const featuredList = projects
+      .filter((p) => p.isFeatured)
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    
+    return filter === "all" 
+      ? featuredList 
+      : featuredList.filter((p) => p.category === filter);
   }, [projects, filter]);
 
   return (
@@ -94,11 +100,10 @@ export default function Projects() {
               <button
                 key={k}
                 onClick={() => setFilter(k)}
-                className={`rounded-xl px-6 py-3 border transition-all duration-300 font-medium ${
-                  filter === k
+                className={`rounded-xl px-6 py-3 border transition-all duration-300 font-medium ${filter === k
                     ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white border-transparent shadow-lg shadow-purple-500/30"
                     : "bg-white/5 text-white/80 border-purple-400/20 hover:bg-white/10 hover:border-purple-400/40 backdrop-blur-sm"
-                }`}
+                  }`}
               >
                 {k === "all" ? "All Projects" : LABELS[k] || k.toUpperCase()}
               </button>
@@ -176,6 +181,30 @@ export default function Projects() {
             ))}
           </Swiper>
         )}
+
+        {/* View All Projects Button */}
+        <div className="flex justify-center mt-12">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 px-8 py-4 text-white font-semibold shadow-xl shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-300 hover:scale-[1.02]"
+          >
+            View All Projects
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </Link>
+        </div>
+        
       </Reveal>
     </Section>
   );
