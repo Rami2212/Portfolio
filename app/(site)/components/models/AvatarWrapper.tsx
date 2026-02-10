@@ -7,7 +7,7 @@ import Avatar from './Avatar'
 
 export default function AvatarWrapper() {
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full" style={{ touchAction: 'none' }}>
       <Canvas
         camera={{ position: [0, 0.8, 2.5], fov: 45 }}
         gl={{
@@ -15,7 +15,7 @@ export default function AvatarWrapper() {
           antialias: true,
           preserveDrawingBuffer: true
         }}
-        style={{ background: 'transparent' }}
+        style={{ background: 'transparent', pointerEvents: 'none' }}
       >
         <ambientLight intensity={0.8} />
         <directionalLight position={[5, 5, 5]} intensity={1.2} castShadow />
