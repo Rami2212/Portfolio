@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     techStack = [],
     liveUrl = "",
     demoUrl = "",
+    githubUrl = "",
     isFeatured = false,
     order = 0,
   } = body ?? {};
@@ -57,6 +58,7 @@ export async function POST(req: NextRequest) {
       techStack,
       liveUrl,
       demoUrl,
+      githubUrl,
       isFeatured: Boolean(isFeatured),
       order: Number(order) || 0,
     });

@@ -68,6 +68,9 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
   if (body?.demoUrl !== undefined)
     updates.demoUrl = String(body.demoUrl || "");
 
+  if (body?.githubUrl !== undefined)
+    updates.githubUrl = String(body.githubUrl || "");
+
   if (body?.isFeatured !== undefined)
     updates.isFeatured = Boolean(body.isFeatured);
 

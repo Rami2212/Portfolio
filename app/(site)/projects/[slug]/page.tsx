@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { s } from "framer-motion/client";
 
 type Project = {
   _id: string;
@@ -16,15 +17,24 @@ type Project = {
   techStack: string[];
   liveUrl?: string;
   demoUrl?: string;
+  githubUrl?: string;
   isFeatured: boolean;
   order: number;
+};
+
+type Site = {
+  _id: string;
+  item: string;
+  value: boolean;
 };
 
 export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const [slug, setSlug] = useState<string | null>(null);
   const [project, setProject] = useState<Project | null>(null);
+  const [site, setSite] = useState<Site | null>(null);
   const [openImage, setOpenImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [githubLinkVisible, setGithubLinkVisible] = useState(false);
 
   useEffect(() => {
     params.then(p => setSlug(p.slug));
@@ -32,6 +42,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
 
   useEffect(() => {
     if (slug) load();
+    loadSite();
   }, [slug]);
 
   async function load() {
@@ -59,6 +70,34 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
     } catch (err) {
       console.error("Project fetch error:", err);
       setProject(null);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function loadSite() {
+    try {
+      setLoading(true);
+
+      const res = await fetch("/api/sites", { cache: "no-store" });
+
+      if (!res.ok) {
+        console.error("Failed to load sites");
+        setSite(null);
+        return;
+      }
+
+      const text = await res.text();
+      if (!text) {
+        setSite(null);
+        return;
+      }
+
+      const json = JSON.parse(text);
+      setSite(json.sites || []);
+    } catch (err) {
+      console.error("Site fetch error:", err);
+      setSite(null);
     } finally {
       setLoading(false);
     }
@@ -98,6 +137,12 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
     aiml: "AI / ML",
     other: "Other",
   };
+
+  if (site?.item == "github") {
+    setGithubLinkVisible(site.value);
+  } else {
+    setGithubLinkVisible(false);
+  }
 
   return (
     <main className="min-h-screen relative px-6 py-16">
@@ -155,7 +200,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
         )}
 
         {/* Action Buttons */}
-        {(project.liveUrl || project.demoUrl) && (
+        {(project.liveUrl || project.demoUrl || project.githubUrl) && (
           <div className="mt-8 flex gap-4 flex-wrap">
             {project.liveUrl && (
               <a
@@ -184,6 +229,19 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                 View Demo
               </a>
             )}
+            {project.githubUrl && githubLinkVisible && (
+              <a
+                className="inline-flex items-center gap-2 rounded-xl border border-purple-400/30 bg-white/5 px-6 py-3 font-semibold text-white hover:bg-white/10 hover:border-purple-400/50 transition-all duration-300 backdrop-blur-sm"
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.599.111.82-.261.82-.58 0-.287-.011-1.244-.017-2.44-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.419-1.305.762-1.605-2.665-.303-5.467-1.332-5.467-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 013.003-.404c1.018.005 2.042.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23 .655 1.653 .243 2.873 .12 3.176 .77 .84 1.235 1.911 1.235 3.221 0 4.609 -2.807 5.625 -5.479 5.921 .43 .372 .815 1.102 .815 2.222 0 1.606 -.015 2.898 -.015 32939c0 .321 .218 .694 .825 .576C20.56521,21,24,16,24,12C24,5,18,0,12,0Z" />
+                </svg>
+                View on GitHub
+              </a>
+            )}  
           </div>
         )}
 

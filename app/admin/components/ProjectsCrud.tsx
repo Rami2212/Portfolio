@@ -17,6 +17,7 @@ type Project = {
   techStack: string[];
   liveUrl?: string;
   demoUrl?: string;
+  githubUrl?: string;
   isFeatured: boolean;
   order: number;
 };
@@ -44,6 +45,7 @@ export default function ProjectsCrud() {
   const [techStack, setTechStack] = useState("");
   const [liveUrl, setLiveUrl] = useState("");
   const [demoUrl, setDemoUrl] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
   const [isFeatured, setIsFeatured] = useState(false);
   const [order, setOrder] = useState<number>(0);
 
@@ -79,6 +81,7 @@ export default function ProjectsCrud() {
     setTechStack("");
     setLiveUrl("");
     setDemoUrl("");
+    setGithubUrl("");
     setIsFeatured(false);
     setOrder(0);
     setEditingId(null);
@@ -123,6 +126,7 @@ export default function ProjectsCrud() {
         techStack: techStack.split(",").map(s => s.trim()).filter(Boolean),
         liveUrl,
         demoUrl,
+        githubUrl,
         isFeatured,
         order,
       };
@@ -161,6 +165,8 @@ export default function ProjectsCrud() {
     setTechStack(p.techStack.join(", "));
     setLiveUrl(p.liveUrl || "");
     setDemoUrl(p.demoUrl || "");
+    setGithubUrl(p.githubUrl || "");
+    setGithubUrl(p.githubUrl || "");
     setIsFeatured(p.isFeatured);
     setOrder(p.order || 0);
     setCoverImageFile(null);
@@ -293,6 +299,16 @@ export default function ProjectsCrud() {
               value={demoUrl} 
               onChange={(e) => setDemoUrl(e.target.value)}
               placeholder="https://demo.example.com"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 text-green-200/90">GITHUB URL</label>
+            <input 
+              className="input-crt" 
+              value={githubUrl} 
+              onChange={(e) => setGithubUrl(e.target.value)}
+              placeholder="https://github.com/username/repo"
             />
           </div>
 

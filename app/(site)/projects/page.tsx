@@ -17,6 +17,7 @@ type Project = {
   techStack: string[];
   liveUrl?: string;
   demoUrl?: string;
+  githubUrl?: string;
   isFeatured: boolean;
   order: number;
 };

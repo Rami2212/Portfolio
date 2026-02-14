@@ -18,6 +18,7 @@ const ProjectSchema = new Schema(
 
     liveUrl: { type: String, default: "" },
     demoUrl: { type: String, default: "" },
+    githubUrl: { type: String, default: "" },
 
     isFeatured: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
