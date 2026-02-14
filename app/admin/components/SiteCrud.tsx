@@ -24,7 +24,7 @@ export default function SitesCrud() {
     setLoading(true);
     setError(null);
     try {
-      const res: any = await apiFetch("/api/sites", { method: "GET", auth: true });
+      const res: any = await apiFetch("/api/site", { method: "GET", auth: true });
       setItems(res?.sites || []);
     } catch (e: any) {
       setError(e.message);
@@ -49,13 +49,13 @@ export default function SitesCrud() {
       if (!item.trim()) throw new Error("Item required");
 
       if (!editingId) {
-        await apiFetch("/api/sites", {
+        await apiFetch("/api/site", {
           method: "POST",
           auth: true,
           body: { item, value },
         });
       } else {
-        await apiFetch(`/api/sites/${editingId}`, {
+        await apiFetch(`/api/site/${editingId}`, {
           method: "PATCH",
           auth: true,
           body: { item, value },
@@ -78,7 +78,7 @@ export default function SitesCrud() {
     if (!confirm("Delete this site?")) return;
     setError(null);
     try {
-      await apiFetch(`/api/sites/${id}`, { method: "DELETE", auth: true });
+      await apiFetch(`/api/site/${id}`, { method: "DELETE", auth: true });
       await load();
     } catch (e: any) {
       setError(e.message);

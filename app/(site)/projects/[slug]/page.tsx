@@ -79,7 +79,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
     try {
       setLoading(true);
 
-      const res = await fetch("/api/sites", { cache: "no-store" });
+      const res = await fetch("/api/site", { cache: "no-store" });
 
       if (!res.ok) {
         console.error("Failed to load sites");

@@ -1,6 +1,5 @@
 import mongoose, { Schema, InferSchemaType, Model } from "mongoose";
 
-
 const SiteSchema = new Schema(
   {
     item: { type: String, required: true, trim: true },
@@ -8,7 +7,6 @@ const SiteSchema = new Schema(
   },
   { timestamps: true }
 );
-
 
 export type Site = InferSchemaType<typeof SiteSchema>;
 
