@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { s } from "framer-motion/client";
 
 type Project = {
   _id: string;
@@ -31,7 +30,7 @@ type Site = {
 export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const [slug, setSlug] = useState<string | null>(null);
   const [project, setProject] = useState<Project | null>(null);
-  const [site, setSite] = useState<Site | null>(null);
+  const [site, setSite] = useState<Site[]>([]);
   const [openImage, setOpenImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [githubLinkVisible, setGithubLinkVisible] = useState(false);
@@ -46,12 +45,9 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
   }, [slug]);
 
   useEffect(() => {
-    if (site?.item === "github") {
-      setGithubLinkVisible(site.value);
-    } else {
-      setGithubLinkVisible(false);
-    }
-  }, [site]);
+  const githubSetting = site.find(s => s.item === "github");
+  setGithubLinkVisible(githubSetting?.value ?? false);
+}, [site]);
 
   async function load() {
     if (!slug) return;
@@ -84,32 +80,17 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
   }
 
   async function loadSite() {
-    try {
-      setLoading(true);
+  try {
+    const res = await fetch("/api/site", { cache: "no-store" });
 
-      const res = await fetch("/api/site", { cache: "no-store" });
+    if (!res.ok) return;
 
-      if (!res.ok) {
-        console.error("Failed to load sites");
-        setSite(null);
-        return;
-      }
-
-      const text = await res.text();
-      if (!text) {
-        setSite(null);
-        return;
-      }
-
-      const json = JSON.parse(text);
-      setSite(json.sites || []);
-    } catch (err) {
-      console.error("Site fetch error:", err);
-      setSite(null);
-    } finally {
-      setLoading(false);
-    }
+    const json = await res.json();
+    setSite(json.sites || []);
+  } catch (err) {
+    console.error("Site fetch error:", err);
   }
+}
 
   if (loading) {
     return (
