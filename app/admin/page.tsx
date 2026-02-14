@@ -8,8 +8,9 @@ import SkillsCrud from "./components/SkillsCrud";
 import ProjectsCrud from "./components/ProjectsCrud";
 import ReviewsModeration from "./components/ReviewsModeration";
 import ContactsCrud from "./components/ContactsCrud";
+import SitesCrud from "./components/SiteCrud";
 
-type TabKey = "skills" | "projects" | "reviews" | "contacts";
+type TabKey = "skills" | "projects" | "reviews" | "contacts" | "sites";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function AdminPage() {
       { key: "projects" as const, label: "PROJECTS" },
       { key: "reviews" as const, label: "REVIEWS" },
       { key: "contacts" as const, label: "CONTACTS" },
+      { key: "sites" as const, label: "SITE SETTINGS" },
     ],
     []
   );
@@ -40,7 +42,9 @@ export default function AdminPage() {
       <div className="max-w-6xl mx-auto space-y-5">
         <header className="card-crt p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
-            <div className="text-green-300/70">SYSTEM:</div>
+            <a href="/" className="text-green-300/70 hover:text-green-300 transition-colors">
+              &larr; Back to Portfolio
+            </a>
             <h1 className="text-4xl text-green-200">PORTFOLIO ADMIN</h1>
             <div className="text-green-300/60">
               VERSION 1.2.0
@@ -72,6 +76,7 @@ export default function AdminPage() {
         {tab === "projects" && <ProjectsCrud />}
         {tab === "reviews" && <ReviewsModeration />}
         {tab === "contacts" && <ContactsCrud />}
+        {tab === "sites" && <SitesCrud />}
       </div>
     </main>
   );
