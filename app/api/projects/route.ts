@@ -5,9 +5,12 @@ import { requireAdmin } from "@/lib/auth";
 import { isCategory, isNonEmptyString, toSlug } from "@/lib/validator";
 
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   await connectDB();
-  const projects = await ProjectModel.find({ isVisible: { $ne: false } }).sort({ order: 1, createdAt: -1 }).lean();
+  const { searchParams } = new URL(req.url);
+  const showAll = searchParams.get("all") === "true";
+  const filter = showAll ? {} : { isVisible: { $ne: false } };
+  const projects = await ProjectModel.find(filter).sort({ order: 1, createdAt: -1 }).lean();
   return NextResponse.json({ projects });
 }
 

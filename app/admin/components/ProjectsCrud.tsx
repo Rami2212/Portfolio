@@ -58,7 +58,7 @@ export default function ProjectsCrud() {
     setLoading(true);
     setError(null);
     try {
-      const res = await apiFetch<{ projects: Project[] }>("/api/projects");
+    const res = await apiFetch<{ projects: Project[] }>("/api/projects?all=true");
       setItems(res.projects);
     } catch (e: any) {
       setError(e.message);
@@ -383,7 +383,7 @@ export default function ProjectsCrud() {
                       <div className="text-green-300/60 text-sm">
                         {p.category.toUpperCase()} • order {p.order ?? 0}
                         {p.isFeatured && " • ⭐ FEATURED"}
-                        {!p.isVisible && " • 🚫 HIDDEN"}
+                        {p.isVisible === false && " • 🚫 HIDDEN"}
                       </div>
                     </div>
                     <div className="flex gap-2 shrink-0">
