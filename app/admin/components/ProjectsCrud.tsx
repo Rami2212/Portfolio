@@ -19,6 +19,7 @@ type Project = {
   demoUrl?: string;
   githubUrl?: string;
   isFeatured: boolean;
+  isVisible: boolean;
   order: number;
 };
 
@@ -47,6 +48,7 @@ export default function ProjectsCrud() {
   const [demoUrl, setDemoUrl] = useState("");
   const [githubUrl, setGithubUrl] = useState("");
   const [isFeatured, setIsFeatured] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [order, setOrder] = useState<number>(0);
 
   // edit
@@ -83,6 +85,7 @@ export default function ProjectsCrud() {
     setDemoUrl("");
     setGithubUrl("");
     setIsFeatured(false);
+    setIsVisible(true);
     setOrder(0);
     setEditingId(null);
     setCoverImageFile(null);
@@ -128,6 +131,7 @@ export default function ProjectsCrud() {
         demoUrl,
         githubUrl,
         isFeatured,
+        isVisible,
         order,
       };
 
@@ -168,6 +172,7 @@ export default function ProjectsCrud() {
     setGithubUrl(p.githubUrl || "");
     setGithubUrl(p.githubUrl || "");
     setIsFeatured(p.isFeatured);
+    setIsVisible(p.isVisible ?? true);
     setOrder(p.order || 0);
     setCoverImageFile(null);
     setGalleryFiles(null);
@@ -323,6 +328,17 @@ export default function ProjectsCrud() {
             <label htmlFor="featured" className="text-green-200/90">FEATURED</label>
           </div>
 
+          <div className="flex items-center gap-2">
+            <input 
+              type="checkbox" 
+              id="visible"
+              checked={isVisible} 
+              onChange={(e) => setIsVisible(e.target.checked)}
+              className="w-4 h-4"
+            />
+            <label htmlFor="visible" className="text-green-200/90">VISIBLE</label>
+          </div>
+
           <div>
             <label className="block mb-1 text-green-200/90">ORDER</label>
             <input
@@ -367,6 +383,7 @@ export default function ProjectsCrud() {
                       <div className="text-green-300/60 text-sm">
                         {p.category.toUpperCase()} • order {p.order ?? 0}
                         {p.isFeatured && " • ⭐ FEATURED"}
+                        {!p.isVisible && " • 🚫 HIDDEN"}
                       </div>
                     </div>
                     <div className="flex gap-2 shrink-0">

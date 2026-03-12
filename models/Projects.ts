@@ -21,6 +21,7 @@ const ProjectSchema = new Schema(
     githubUrl: { type: String, default: "" },
 
     isFeatured: { type: Boolean, default: false },
+    isVisible: { type: Boolean, default: true },
     order: { type: Number, default: 0 },
   },
   { timestamps: true }

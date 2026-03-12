@@ -28,6 +28,7 @@ type Project = {
   demoUrl?: string;
   githubUrl?: string;
   isFeatured: boolean;
+  isVisible: boolean;
   order: number;
 };
 

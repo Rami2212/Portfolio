@@ -74,6 +74,9 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
   if (body?.isFeatured !== undefined)
     updates.isFeatured = Boolean(body.isFeatured);
 
+  if (body?.isVisible !== undefined)
+    updates.isVisible = Boolean(body.isVisible);
+
   if (body?.order !== undefined)
     updates.order = Number(body.order) || 0;
 

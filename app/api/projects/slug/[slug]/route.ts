@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, { params }: RouteContext) {
   await connectDB();
 
   try {
-    const project = await ProjectModel.findOne({ slug }).lean();
+    const project = await ProjectModel.findOne({ slug, isVisible: { $ne: false } }).lean();
 
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });

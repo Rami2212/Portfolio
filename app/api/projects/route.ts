@@ -7,7 +7,7 @@ import { isCategory, isNonEmptyString, toSlug } from "@/lib/validator";
 
 export async function GET() {
   await connectDB();
-  const projects = await ProjectModel.find().sort({ order: 1, createdAt: -1 }).lean();
+  const projects = await ProjectModel.find({ isVisible: { $ne: false } }).sort({ order: 1, createdAt: -1 }).lean();
   return NextResponse.json({ projects });
 }
 
@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
     demoUrl = "",
     githubUrl = "",
     isFeatured = false,
+    isVisible = true,
     order = 0,
   } = body ?? {};
 
@@ -60,6 +61,7 @@ export async function POST(req: NextRequest) {
       demoUrl,
       githubUrl,
       isFeatured: Boolean(isFeatured),
+      isVisible: Boolean(isVisible),
       order: Number(order) || 0,
     });
     return NextResponse.json({ project: created }, { status: 201 });
