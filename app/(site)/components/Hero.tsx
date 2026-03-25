@@ -78,14 +78,14 @@ export default function Hero() {
                   DevOps CV
                 </a>
 
-                {/* 
+                
                 <a
                   className="rounded-xl border border-blue-400/30 bg-white/5 px-8 py-4 font-semibold text-white hover:bg-white/10 hover:border-blue-400/50 hover:scale-[1.02] transition-all duration-300 backdrop-blur-xl shadow-lg text-center"
                   href="/cv/aiml.pdf"
                   download
                 >
                   AI/ML CV
-                </a> */}
+                </a>
               </div>
 
 
