@@ -170,7 +170,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
             <img
               src={project.coverImage}
               alt={project.title}
-              className="w-full h-[600px] object-cover"
+              className="w-full h-48 sm:h-64 md:h-80 lg:h-[600px] object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
               }}
@@ -268,7 +268,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                     <img
                       src={img}
                       alt={`${project.title} screenshot ${index + 1}`}
-                      className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
+                      className="w-full h-32 sm:h-40 md:h-48 lg:h-64 object-cover hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
                         e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23444" width="100" height="100"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EImage%3C/text%3E%3C/svg%3E';
                       }}
