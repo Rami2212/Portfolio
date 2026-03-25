@@ -107,15 +107,15 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Project Not Found</h1>
           <p className="text-white/60 mb-8">The project you're looking for doesn't exist.</p>
-          <Link
-            href="/"
+            <Link
+            href={typeof document !== 'undefined' && document.referrer?.includes('projects') ? '/projects/' : '/'}
             className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 px-6 py-3 text-white font-semibold hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300"
-          >
+            >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Back to Home
-          </Link>
+            </Link>
         </div>
       </main>
     );
