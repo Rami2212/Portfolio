@@ -9,7 +9,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           {children}
         </body>
       </html>
-      <Analytics />
+      <Analytics/>
     </>
   );
 }

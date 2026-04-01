@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'Ramitha Iddamalgoda | Software Engineer',
@@ -9,10 +10,13 @@ export const metadata: Metadata = {
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-black text-white">
-        {children}
-      </body>
-    </html>
+    <>
+      <html lang="en">
+        <body className="min-h-screen bg-black text-white">
+          {children}
+        </body>
+      </html>
+      <Analytics/>
+    </>
   );
 }
