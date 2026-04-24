@@ -8,6 +8,7 @@ A modern, dynamic developer portfolio built with Next.js 16, TypeScript, and Tai
   - Interactive Hero section with 3D elements (@react-three/fiber).
   - Dynamic Projects showcase with filtering and detailed views.
   - Skills & Experience sections.
+  - Dedicated **Certifications** section with responsive slider cards and project-style controls.
   - Reviews/Testimonials.
   - Contact form with email integration.
   - Responsive design with smooth animations (Framer Motion).
@@ -18,6 +19,7 @@ A modern, dynamic developer portfolio built with Next.js 16, TypeScript, and Tai
   - **Content Management**: Full CRUD operations for:
     - **Projects**: Manage titles, descriptions, tech stacks, images, and visibility.
     - **Skills**: Add/Update skills and proficiency levels.
+    - **Certifications**: Manage certification name, organization logo URL, issued month/year, optional credential URL, and order.
     - **Reviews**: moderate user-submitted testimonials.
     - **Site Settings**: Toggle features (e.g., GitHub link visibility).
   - **Image Upload**: Integrated with Cloudinary for media assets.
@@ -45,6 +47,7 @@ A modern, dynamic developer portfolio built with Next.js 16, TypeScript, and Tai
 │   │   ├── auth/           # Login & Session endpoints
 │   │   ├── projects/       # Projects CRUD
 │   │   ├── skills/         # Skills CRUD
+│   │   ├── certifications/ # Certifications CRUD
 │   │   ├── reviews/        # Reviews & Moderation
 │   │   ├── site/           # Site settings
 │   │   └── upload/         # Image upload handler
@@ -66,6 +69,10 @@ A modern, dynamic developer portfolio built with Next.js 16, TypeScript, and Tai
 | `PATCH` | `/api/projects/:id` | Update a project | ✅ |
 | `DELETE` | `/api/projects/:id` | Delete a project | ✅ |
 | `GET` | `/api/skills` | Get all skills | ❌ |
+| `GET` | `/api/certifications` | Get all certifications | ❌ |
+| `POST` | `/api/certifications` | Create a certification | ✅ |
+| `PATCH` | `/api/certifications/:id` | Update a certification | ✅ |
+| `DELETE` | `/api/certifications/:id` | Delete a certification | ✅ |
 | `POST` | `/api/contact` | Submit contact form | ❌ |
 | `POST` | `/api/upload` | Upload image to Cloudinary | ✅ |
 

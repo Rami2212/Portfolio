@@ -123,6 +123,7 @@ export default function ExperienceEducation() {
             </div>
           </div>
         </div>
+
       </Reveal>
     </Section>
   );
