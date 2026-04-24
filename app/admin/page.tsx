@@ -3,14 +3,16 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { clearToken, getToken } from "@/lib/adminClient";
 import SkillsCrud from "./components/SkillsCrud";
+import CertificationsCrud from "./components/CertificationsCrud";
 import ProjectsCrud from "./components/ProjectsCrud";
 import ReviewsModeration from "./components/ReviewsModeration";
 import ContactsCrud from "./components/ContactsCrud";
 import SitesCrud from "./components/SiteCrud";
 
-type TabKey = "skills" | "projects" | "reviews" | "contacts" | "sites";
+type TabKey = "skills" | "certifications" | "projects" | "reviews" | "contacts" | "sites";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -24,6 +26,7 @@ export default function AdminPage() {
   const tabs = useMemo(
     () => [
       { key: "skills" as const, label: "SKILLS" },
+      { key: "certifications" as const, label: "CERTIFICATIONS" },
       { key: "projects" as const, label: "PROJECTS" },
       { key: "reviews" as const, label: "REVIEWS" },
       { key: "contacts" as const, label: "CONTACTS" },
@@ -42,9 +45,9 @@ export default function AdminPage() {
       <div className="max-w-6xl mx-auto space-y-5">
         <header className="card-crt p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
-            <a href="/" className="text-green-300/70 hover:text-green-300 transition-colors">
+            <Link href="/" className="text-green-300/70 hover:text-green-300 transition-colors">
               &larr; Back to Portfolio
-            </a>
+            </Link>
             <h1 className="text-4xl text-green-200">PORTFOLIO ADMIN</h1>
             <div className="text-green-300/60">
               VERSION 1.2.0
@@ -73,6 +76,7 @@ export default function AdminPage() {
         </nav>
 
         {tab === "skills" && <SkillsCrud />}
+        {tab === "certifications" && <CertificationsCrud />}
         {tab === "projects" && <ProjectsCrud />}
         {tab === "reviews" && <ReviewsModeration />}
         {tab === "contacts" && <ContactsCrud />}
